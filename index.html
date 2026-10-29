@@ -295,6 +295,13 @@ body:has(#cartModal.open) .categories{z-index:1}
 .fab.down.right .fab-list a{transform-origin:right top}
 .fab.down:not(.open) .fab-list a{transform:translateY(-14px) scale(.85)}
 .fab.down .fab-list a:nth-child(1){--d:.03s}.fab.down .fab-list a:nth-child(2){--d:.08s}.fab.down .fab-list a:nth-child(3){--d:.13s}
+
+/* El menú cerrado no debe bloquear toques fuera del botón */
+.fab{pointer-events:none}
+.fab-toggle{pointer-events:auto}
+.fab-list{pointer-events:none}
+.fab.open .fab-list a{pointer-events:auto}
+.fab.open .fab-scrim{pointer-events:auto}
 </style>
 </head>
 <body>
