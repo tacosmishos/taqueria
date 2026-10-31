@@ -1,7 +1,7 @@
 // Tacos Mishos · service worker (permite instalar la app y abrir más rápido)
 // Si cambias archivos de la página, no hace falta tocar esto: las páginas se piden primero a internet.
-const CACHE = 'tm-shell-v2';
-const SHELL = ['./', 'index.html','styles.css', 'app.js', 'admin.html', 'supabase-config.js', 'manifest.webmanifest', 'admin.webmanifest', 'logo-96.png', 'logo-256.png', 'icon-192.png'];
+const CACHE = 'tm-shell-v2'; // súbele 1 (v3, v4…) cada vez que cambies la página
+const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'admin.html', 'supabase-config.js', 'manifest.webmanifest', 'admin.webmanifest', 'logo-96.png', 'logo-256.png', 'icon-192.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.allSettled(SHELL.map(u => c.add(u)))).then(() => self.skipWaiting()));
@@ -15,6 +15,11 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate') { // páginas: primero internet (así siempre ves la versión nueva); sin señal, la guardada
     e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return r; })
       .catch(() => caches.match(req, { ignoreSearch: true }).then(r => r || caches.match('./'))));
+    return;
+  }
+  if (/\.(?:js|css)$/.test(url.pathname)) { // código: primero internet (siempre la versión nueva); sin señal, el guardado
+    e.respondWith(fetch(req).then(r => { if (r.ok) { const copy = r.clone(); caches.open(CACHE).then(c => c.put(req, copy)); } return r; })
+      .catch(() => caches.match(req, { ignoreSearch: true })));
     return;
   }
   e.respondWith(caches.match(req).then(hit => { // imágenes y archivos: rápido desde caché y se actualizan detrás

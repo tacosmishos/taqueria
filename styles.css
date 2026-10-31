@@ -327,3 +327,5 @@ body:has(#cartModal.open) .catwrap{z-index:1}
 .gallerydots button.active::before{background:var(--cream)}
 .lightbox-close{min-height:44px}
 .fab-list a{min-height:48px}
+
+.add.pick{font-size:14px;padding:0 16px}
