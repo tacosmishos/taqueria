@@ -1,6 +1,6 @@
 // Tacos Mishos · service worker (permite instalar la app y abrir más rápido)
 // Si cambias archivos de la página, no hace falta tocar esto: las páginas se piden primero a internet.
-const CACHE = 'tm-shell-v2'; // súbele 1 (v3, v4…) cada vez que cambies la página
+const CACHE = 'tm-shell-v3'; // súbele 1 (v3, v4…) cada vez que cambies la página
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'admin.html', 'supabase-config.js', 'manifest.webmanifest', 'admin.webmanifest', 'logo-96.png', 'logo-256.png', 'icon-192.png'];
 
 self.addEventListener('install', e => {
